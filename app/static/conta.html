@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiniBanco — A minha conta</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/estilo.css">
+  <script type="module" src="/static/conta.js"></script>
+</head>
+<body class="pagina-conta">
+  <header class="topo">
+    <div class="topo-conteudo">
+      <span class="marca">MiniBanco</span>
+      <div class="utilizador">
+        <span class="nome-titular" data-testid="nome-titular"></span>
+        <button type="button" class="botao botao-secundario" data-testid="botao-sair">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="faixa-saldo" aria-labelledby="rotulo-saldo">
+    <div class="faixa-saldo-conteudo">
+      <div>
+        <p class="rotulo-saldo" id="rotulo-saldo">Saldo disponível</p>
+        <p class="valor-saldo" data-testid="saldo">…</p>
+      </div>
+      <p class="numero-conta">Conta n.º <span data-testid="numero-conta"></span></p>
+    </div>
+    <div class="capulana" aria-hidden="true"></div>
+  </section>
+
+  <main class="conteudo">
+    <section class="operacoes" aria-label="Operações">
+      <div class="separadores" role="tablist" aria-label="Tipo de operação">
+        <button type="button" class="separador" role="tab" aria-selected="true" data-separador="transferencia" data-testid="separador-transferencia">Transferir</button>
+        <button type="button" class="separador" role="tab" aria-selected="false" data-separador="levantamento" data-testid="separador-levantamento">Levantar</button>
+        <button type="button" class="separador" role="tab" aria-selected="false" data-separador="pagamento" data-testid="separador-pagamento">Pagar</button>
+      </div>
+
+      <div class="mensagem mensagem-sucesso" role="status" data-testid="mensagem-sucesso" hidden></div>
+      <div class="mensagem mensagem-erro" role="alert" data-testid="mensagem-erro" hidden></div>
+      <div class="mensagem mensagem-info" role="status" data-testid="mensagem-info" hidden></div>
+
+      <form class="painel" data-operacao="transferencia" data-testid="form-transferencia" novalidate>
+        <div class="campo">
+          <label for="t-destino">Conta de destino</label>
+          <input id="t-destino" name="conta_destino" inputmode="numeric" maxlength="9" autocomplete="off" placeholder="9 dígitos" data-testid="campo-conta-destino">
+        </div>
+        <div class="campo">
+          <label for="t-valor">Valor em MZN</label>
+          <input id="t-valor" name="valor" inputmode="decimal" autocomplete="off" placeholder="0,00" data-testid="campo-valor-transferencia">
+        </div>
+        <div class="campo">
+          <label for="t-descricao">Descrição <span class="opcional">(opcional)</span></label>
+          <input id="t-descricao" name="descricao" maxlength="60" autocomplete="off" data-testid="campo-descricao">
+        </div>
+        <button type="submit" class="botao botao-largo" data-testid="botao-continuar-transferencia">Continuar</button>
+      </form>
+
+      <form class="painel" data-operacao="levantamento" data-testid="form-levantamento" novalidate hidden>
+        <div class="campo">
+          <label for="l-valor">Valor em MZN</label>
+          <input id="l-valor" name="valor" inputmode="decimal" autocomplete="off" placeholder="0,00" aria-describedby="l-ajuda" data-testid="campo-valor-levantamento">
+          <p class="ajuda" id="l-ajuda">Múltiplos de 100 MZN, até 20 000 MZN por levantamento.</p>
+        </div>
+        <button type="submit" class="botao botao-largo" data-testid="botao-continuar-levantamento">Continuar</button>
+      </form>
+
+      <form class="painel" data-operacao="pagamento" data-testid="form-pagamento" novalidate hidden>
+        <div class="campo">
+          <label for="p-entidade">Entidade</label>
+          <select id="p-entidade" name="entidade" data-testid="campo-entidade"></select>
+        </div>
+        <div class="campo">
+          <label for="p-referencia">Referência</label>
+          <input id="p-referencia" name="referencia" inputmode="numeric" maxlength="9" autocomplete="off" placeholder="9 dígitos" data-testid="campo-referencia">
+        </div>
+        <div class="campo">
+          <label for="p-valor">Valor em MZN</label>
+          <input id="p-valor" name="valor" inputmode="decimal" autocomplete="off" placeholder="0,00" data-testid="campo-valor-pagamento">
+        </div>
+        <button type="submit" class="botao botao-largo" data-testid="botao-continuar-pagamento">Continuar</button>
+      </form>
+    </section>
+
+    <section class="movimentos" aria-labelledby="titulo-movimentos">
+      <h2 id="titulo-movimentos">Movimentos</h2>
+      <div class="tabela-envolvente">
+        <table class="tabela" data-testid="tabela-movimentos">
+          <thead>
+            <tr><th scope="col">Data</th><th scope="col">Descrição</th><th scope="col" class="num">Valor</th><th scope="col" class="num">Saldo</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="confirmacao" data-testid="modal-confirmacao" aria-labelledby="titulo-confirmacao">
+    <div class="capulana" aria-hidden="true"></div>
+    <form id="form-pin" class="confirmacao-corpo" novalidate>
+      <h2 id="titulo-confirmacao">Confirmar operação</h2>
+      <dl class="resumo" data-testid="resumo-operacao"></dl>
+      <div class="campo campo-pin">
+        <label for="pin">PIN de 4 dígitos</label>
+        <input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" data-testid="campo-pin">
+      </div>
+      <p class="mensagem mensagem-erro" role="alert" data-testid="erro-pin" hidden></p>
+      <p class="contador">A confirmação expira em <span data-testid="contador">2:00</span></p>
+      <div class="accoes">
+        <button type="button" class="botao botao-secundario" data-testid="botao-cancelar">Cancelar</button>
+        <button type="submit" class="botao" data-testid="botao-confirmar">Confirmar</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

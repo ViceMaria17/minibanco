@@ -1,0 +1,266 @@
+/* MiniBanco
+   Paleta inspirada no Índico e nas capulanas moçambicanas.
+   O padrão de capulana é o único elemento decorativo; tudo o resto fica sóbrio. */
+
+:root {
+  --tinta: #1d2340;
+  --tinta-suave: #4f5675;
+  --papel: #f5f6f9;
+  --branco: #ffffff;
+  --linha: #d9dde8;
+  --indico: #0d6670;
+  --indico-escuro: #09474f;
+  --acafrao: #e2a11b;
+  --credito: #1b7a4b;
+  --debito: #b1281d;
+  --fundo-erro: #fcefec;
+  --fundo-sucesso: #ebf6f0;
+  --fundo-info: #eaf2f3;
+
+  --sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serifa: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--tinta);
+  background: var(--papel);
+}
+
+h1, h2 { margin: 0; line-height: 1.2; }
+p { margin: 0; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--acafrao); outline-offset: 2px; }
+
+/* ---------- Marca e padrão de capulana ---------- */
+
+.marca {
+  font-family: var(--serifa);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+}
+.marca::before {
+  content: "";
+  width: 0.62em;
+  height: 0.62em;
+  background: var(--acafrao);
+  transform: rotate(45deg);
+}
+
+.capulana {
+  height: 14px;
+  background-color: var(--indico);
+  background-image:
+    linear-gradient(135deg, var(--acafrao) 25%, transparent 25%),
+    linear-gradient(225deg, var(--acafrao) 25%, transparent 25%),
+    linear-gradient(45deg, var(--indico-escuro) 25%, transparent 25%),
+    linear-gradient(315deg, var(--indico-escuro) 25%, transparent 25%);
+  background-position: 7px 0, 7px 0, 0 0, 0 0;
+  background-size: 14px 14px;
+}
+
+/* ---------- Formulários, botões e mensagens ---------- */
+
+.campo { display: grid; gap: 6px; margin-bottom: 18px; }
+label { font-weight: 600; font-size: 0.9375rem; }
+.opcional { font-weight: 400; color: var(--tinta-suave); }
+.ajuda { color: var(--tinta-suave); font-size: 0.875rem; }
+
+input, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+  background: var(--branco);
+}
+input::placeholder { color: #8d93ab; }
+input:focus-visible, select:focus-visible { border-color: var(--indico); outline-offset: 0; }
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--indico);
+  color: var(--branco);
+  font-weight: 600;
+  cursor: pointer;
+}
+.botao:hover { background: var(--indico-escuro); }
+.botao:disabled { opacity: 0.6; cursor: progress; }
+.botao-secundario { background: transparent; color: var(--tinta); border-color: var(--linha); }
+.botao-secundario:hover { background: var(--papel); }
+.botao-largo { width: 100%; }
+
+.mensagem {
+  padding: 10px 14px;
+  border-left: 4px solid;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 18px;
+  white-space: pre-line;   /* respeita as quebras de linha (\n) do texto */
+}
+.mensagem-erro { background: var(--fundo-erro); border-color: var(--debito); }
+.mensagem-sucesso { background: var(--fundo-sucesso); border-color: var(--credito); }
+.mensagem-info { background: var(--fundo-info); border-color: var(--indico); }
+
+/* ---------- Página de login ---------- */
+
+.pagina-login {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(300px, 5fr) 7fr;
+}
+
+.login-lado {
+  background: var(--indico);
+  color: var(--branco);
+  padding: 40px 48px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.login-texto { margin-top: auto; max-width: 30ch; }
+.login-frase { font-family: var(--serifa); font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.25; }
+.login-nota { margin-top: 16px; opacity: 0.85; }
+.login-lado .capulana { margin: 0 -48px; }
+
+.login-principal { display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+.form-login { width: 100%; max-width: 360px; }
+.form-login h1 { font-family: var(--serifa); font-size: 2rem; font-weight: 600; margin-bottom: 28px; }
+.rodape-login { margin-top: 20px; font-size: 0.875rem; color: var(--tinta-suave); }
+
+/* ---------- Página da conta ---------- */
+
+.topo { background: var(--branco); border-bottom: 1px solid var(--linha); }
+.topo-conteudo, .faixa-saldo-conteudo, .conteudo { max-width: 1120px; margin: 0 auto; }
+.topo-conteudo { padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.utilizador { display: flex; align-items: center; gap: 16px; }
+.nome-titular { font-weight: 600; }
+
+.faixa-saldo { background: var(--indico); color: var(--branco); }
+.faixa-saldo-conteudo {
+  padding: 28px 24px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px 32px;
+}
+.rotulo-saldo, .numero-conta { opacity: 0.85; }
+.valor-saldo {
+  font-family: var(--serifa);
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-top: 4px;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.conteudo {
+  padding: 32px 24px 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.operacoes {
+  background: var(--branco);
+  border: 1px solid var(--linha);
+  border-radius: 12px;
+  padding: 0 24px 24px;
+}
+.separadores {
+  display: flex;
+  gap: 4px;
+  margin: 0 -24px 24px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--linha);
+}
+.separador {
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  padding: 14px 12px 11px;
+  font-weight: 600;
+  color: var(--tinta-suave);
+  cursor: pointer;
+}
+.separador:hover { color: var(--tinta); }
+.separador[aria-selected="true"] { color: var(--tinta); border-bottom-color: var(--acafrao); }
+
+.movimentos h2 { font-family: var(--serifa); font-size: 1.625rem; font-weight: 600; margin: 6px 0 16px; }
+.tabela-envolvente { overflow-x: auto; }
+.tabela { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+.tabela th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--tinta-suave);
+  padding: 0 8px 8px;
+  border-bottom: 2px solid var(--tinta);
+}
+.tabela td { padding: 12px 8px; border-bottom: 1px solid var(--linha); vertical-align: top; }
+.tabela .num { text-align: right; white-space: nowrap; }
+.tabela td.num { font-family: var(--serifa); font-variant-numeric: lining-nums tabular-nums; font-size: 1rem; }
+.tabela .data { white-space: nowrap; color: var(--tinta-suave); }
+.tabela .descricao { overflow-wrap: anywhere; }
+.tabela .credito { color: var(--credito); }
+.tabela .debito { color: var(--debito); }
+
+/* ---------- Confirmação com PIN ---------- */
+
+.confirmacao {
+  width: min(440px, calc(100% - 32px));
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  color: var(--tinta);
+  box-shadow: 0 24px 64px rgba(16, 26, 56, 0.35);
+}
+.confirmacao::backdrop { background: rgba(16, 24, 48, 0.55); }
+.confirmacao-corpo { padding: 24px; }
+.confirmacao h2 { font-family: var(--serifa); font-size: 1.5rem; font-weight: 600; margin-bottom: 18px; }
+
+.resumo {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  margin: 0 0 20px;
+  padding: 16px;
+  background: var(--papel);
+  border-radius: 8px;
+}
+.resumo dt { color: var(--tinta-suave); }
+.resumo dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+
+.campo-pin input { max-width: 180px; font-size: 1.5rem; letter-spacing: 0.5em; text-align: center; }
+.contador { font-size: 0.875rem; color: var(--tinta-suave); margin-bottom: 20px; }
+.accoes { display: flex; justify-content: flex-end; gap: 12px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .confirmacao[open] { animation: surgir 0.18s ease-out; }
+  @keyframes surgir { from { opacity: 0; transform: translateY(8px); } }
+}
+
+/* ---------- Ecrãs estreitos ---------- */
+
+@media (max-width: 860px) {
+  .pagina-login { grid-template-columns: 1fr; }
+  .login-lado { padding: 24px 24px 0; gap: 20px; }
+  .login-lado .capulana { margin: 0 -24px; }
+  .login-texto { margin-top: 0; max-width: none; }
+  .conteudo { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiniBanco — Iniciar sessão</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/estilo.css">
+  <script type="module" src="/static/login.js"></script>
+</head>
+<body class="pagina-login">
+  <aside class="login-lado">
+    <span class="marca">MiniBanco</span>
+    <div class="login-texto">
+      <p class="login-frase">Pratique testes de software numa plataforma financeira que se comporta como uma a sério.</p>
+      <p class="login-nota">Todos os dados são fictícios e voltam ao estado inicial sempre que o servidor reinicia.</p>
+    </div>
+    <div class="capulana" aria-hidden="true"></div>
+  </aside>
+
+  <main class="login-principal">
+    <form id="form-login" class="form-login" data-testid="form-login" novalidate>
+      <h1>Iniciar sessão</h1>
+
+      <p class="mensagem mensagem-info" role="status" data-testid="mensagem-info" hidden></p>
+
+      <div class="campo">
+        <label for="utilizador">Utilizador</label>
+        <input id="utilizador" name="utilizador" autocomplete="username" autocapitalize="none" data-testid="campo-utilizador">
+      </div>
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input id="senha" name="senha" type="password" autocomplete="current-password" data-testid="campo-senha">
+      </div>
+
+      <p class="mensagem mensagem-erro" role="alert" data-testid="mensagem-erro" hidden></p>
+
+      <button type="submit" class="botao botao-largo" data-testid="botao-entrar">Entrar</button>
+      <p class="rodape-login">Os utilizadores de demonstração estão no ficheiro README.</p>
+    </form>
+  </main>
+</body>
+</html>
